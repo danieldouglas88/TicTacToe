@@ -133,7 +133,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if(!gameOver){
                     Button b = (Button) view;
 
-                    if(b.getText().equals("")) {
+
+                    if(b.getText().equals(" ")) {
                         if (turn % 2 != 0) {
                             b.setText("X");
                             message = "Player O Turn";
@@ -142,7 +143,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             message = "Player X Turn";
                         }
                         turn++;
-                        checkForGameOver;
+                        checkForGameOver();
 
                     }else{
                         message = "This square is taken. Try again.";
@@ -154,12 +155,57 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
         }
                     private void checkForGameOver() {
-                    //in progress
+                        //check for a match
+                        for (int x = 0; x < 3; x++) {
+                            if (!gameGrid[x][0].getText().equals(" ") &&
+                                    gameGrid[x][0].getText().equals(gameGrid[x][1].getText()) &&
+                                    gameGrid[x][1].getText().equals(gameGrid[x][2].getText())) {
+                                message = gameGrid[x][0].getText() + " wins!";
+                                gameOver = true;
+                                return;
+                            }
+
+                        }
+
+                        //columns
+                        for (int y = 0; y < 3; y++) {
+                            if (!gameGrid[0][y].getText().equals(" ") &&
+                                    gameGrid[0][y].getText().equals(gameGrid[1][y].getText()) &&
+                                    gameGrid[1][y].getText().equals(gameGrid[2][y].getText())) {
+                                message = gameGrid[0][y].getText() + " wins!";
+                                gameOver = true;
+                                return;
+                            }
+                        }
+
+                        //diagonal 1
+                        if (!gameGrid[0][0].getText().equals(" ") &&
+                                gameGrid[0][0].getText().equals(gameGrid[1][1].getText()) &&
+                                gameGrid[1][1].getText().equals(gameGrid[2][2].getText())) {
+                            message = gameGrid[0][0].getText() + " wins!";
+                            gameOver = true;
+                            return;
+                        }
+
+                        //diagonal 2
+                        if (!gameGrid[2][0].getText().equals(" ") &&
+                                gameGrid[2][0].getText().equals(gameGrid[1][1].getText()) &&
+                                gameGrid[1][1].getText().equals(gameGrid[0][2].getText())) {
+                            message = gameGrid[0][0].getText() + " wins!";
+                            gameOver = true;
+                            return;
+                        }
+
+                        if(turn > 9){
+                            message = "It's a tie!";
+                            gameOver = true;
+                            return;
+                        }
+                        gameOver = false;
                     }
 
-
     private void clearGrid(){
-        for (int x = 0; x<gameGrid[x].length; x++){
+        for (int x = 0; x<gameGrid.length; x++){
             for (int y = 0; y<gameGrid[x].length; y++){
                 gameGrid[x][y].setText(" "); //use a space for each square
             }
